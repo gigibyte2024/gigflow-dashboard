@@ -22,12 +22,21 @@ const Dashboard = () => {
   const [source, setSource] =
     useState("Website");
 
+    const [search, setSearch] =
+  useState("");
+
+const [filterStatus, setFilterStatus] =
+  useState("");
+
+const [filterSource, setFilterSource] =
+  useState("");
+
   const fetchLeads = async () => {
     try {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/leads",
+        `http://127.0.0.1:8000/api/leads?search=${search}&status=${filterStatus}&source=${filterSource}`,
         {
           headers: {
             Authorization: token,
@@ -77,13 +86,76 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchLeads();
-  }, []);
+  }, [search, filterStatus, filterSource]);
 
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">
         Leads Dashboard
       </h1>
+      <div className="flex flex-wrap gap-4 mb-6">
+  <input
+    type="text"
+    placeholder="Search leads"
+    className="border p-3 rounded-md bg-white"
+    value={search}
+    onChange={(e) =>
+      setSearch(e.target.value)
+    }
+  />
+
+  <select
+    className="border p-3 rounded-md bg-white"
+    value={filterStatus}
+    onChange={(e) =>
+      setFilterStatus(e.target.value)
+    }
+  >
+    <option value="">
+      All Status
+    </option>
+
+    <option value="New">
+      New
+    </option>
+
+    <option value="Contacted">
+      Contacted
+    </option>
+
+    <option value="Qualified">
+      Qualified
+    </option>
+
+    <option value="Lost">
+      Lost
+    </option>
+  </select>
+
+  <select
+    className="border p-3 rounded-md bg-white"
+    value={filterSource}
+    onChange={(e) =>
+      setFilterSource(e.target.value)
+    }
+  >
+    <option value="">
+      All Sources
+    </option>
+
+    <option value="Website">
+      Website
+    </option>
+
+    <option value="Instagram">
+      Instagram
+    </option>
+
+    <option value="Referral">
+      Referral
+    </option>
+  </select>
+</div>
 
       <form
         onSubmit={createLead}
