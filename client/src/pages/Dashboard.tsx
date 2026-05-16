@@ -55,6 +55,8 @@ const [filterSource, setFilterSource] =
   ) => {
     e.preventDefault();
 
+    
+
     try {
       const token = localStorage.getItem("token");
 
@@ -78,6 +80,31 @@ const [filterSource, setFilterSource] =
       setStatus("New");
       setSource("Website");
 
+      fetchLeads();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateLeadStatus = async (
+    id: string,
+    newStatus: string
+  ) => {
+    try {
+      const token = localStorage.getItem("token");
+  
+      await axios.put(
+        `http://127.0.0.1:8000/api/leads/${id}`,
+        {
+          status: newStatus,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+  
       fetchLeads();
     } catch (error) {
       console.log(error);
@@ -246,10 +273,26 @@ const [filterSource, setFilterSource] =
                 <td className="p-4">
                   {lead.email}
                 </td>
-
                 <td className="p-4">
-                  {lead.status}
-                </td>
+  <select
+    value={lead.status}
+    onChange={(e) =>
+      updateLeadStatus(
+        lead._id,
+        e.target.value
+      )
+    }
+    className="border rounded-md p-2"
+  >
+    <option>New</option>
+
+    <option>Contacted</option>
+
+    <option>Qualified</option>
+
+    <option>Lost</option>
+  </select>
+</td>
 
                 <td className="p-4">
                   {lead.source}
