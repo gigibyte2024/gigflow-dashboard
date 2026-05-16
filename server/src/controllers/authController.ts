@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 
 import User from "../models/User";
+import generateToken from "../utils/generateToken";
 
 export const registerUser = async (
   req: Request,
@@ -42,7 +43,38 @@ export const loginUser = async (
   req: Request,
   res: Response
 ) => {
-  res.json({
-    message: "Login Route",
-  });
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid email or password",
+      });
+    }
+
+    const isMatch = await bcrypt.compare(
+      password,
+      user.password
+    );
+
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Invalid email or password",
+      });
+    }
+
+    const token = generateToken(user._id.toString());
+
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
 };
