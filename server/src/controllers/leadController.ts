@@ -78,10 +78,10 @@ export const getLeads = async (
 
     const skip = (currentPage - 1) * limit;
 
-    const sortOption =
-      sort === "oldest"
-        ? { createdAt: 1 }
-        : { createdAt: -1 };
+    const sortOption: any =
+    sort === "oldest"
+      ? { createdAt: 1 }
+      : { createdAt: -1 };
 
     const leads = await Lead.find(query)
       .sort(sortOption)
