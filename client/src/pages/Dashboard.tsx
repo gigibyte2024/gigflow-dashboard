@@ -279,7 +279,7 @@ const [filterSource, setFilterSource] =
         </button>
       </form>
 
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      <div className="bg-white rounded-lg shadow-sm overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-100">
             <tr>
@@ -306,7 +306,17 @@ const [filterSource, setFilterSource] =
           </thead>
 
           <tbody>
-            {leads.map((lead) => (
+          {leads.length === 0 ? (
+  <tr>
+    <td
+      colSpan={5}
+      className="text-center p-6"
+    >
+      No leads found
+    </td>
+  </tr>
+) : (
+  leads.map((lead) => (
               <tr
                 key={lead._id}
                 className="border-t"
@@ -354,7 +364,8 @@ const [filterSource, setFilterSource] =
 </td>
 
               </tr>
-            ))}
+))
+)}
           </tbody>
         </table>
       </div>
