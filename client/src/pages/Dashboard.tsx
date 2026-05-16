@@ -111,6 +111,35 @@ const [filterSource, setFilterSource] =
     }
   };
 
+  const deleteLead = async (
+    id: string
+  ) => {
+    const confirmDelete = window.confirm(
+      "Delete this lead?"
+    );
+  
+    if (!confirmDelete) {
+      return;
+    }
+  
+    try {
+      const token = localStorage.getItem("token");
+  
+      await axios.delete(
+        `http://127.0.0.1:8000/api/leads/${id}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+  
+      fetchLeads();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchLeads();
   }, [search, filterStatus, filterSource]);
@@ -257,6 +286,10 @@ const [filterSource, setFilterSource] =
               <th className="text-left p-4">
                 Source
               </th>
+              <th className="text-left p-4">
+  Action
+</th>
+
             </tr>
           </thead>
 
@@ -297,6 +330,17 @@ const [filterSource, setFilterSource] =
                 <td className="p-4">
                   {lead.source}
                 </td>
+                <td className="p-4">
+  <button
+    onClick={() =>
+      deleteLead(lead._id)
+    }
+    className="bg-red-500 text-white px-4 py-2 rounded-md"
+  >
+    Delete
+  </button>
+</td>
+
               </tr>
             ))}
           </tbody>
