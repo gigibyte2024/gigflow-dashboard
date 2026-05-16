@@ -146,9 +146,21 @@ const [filterSource, setFilterSource] =
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">
-        Leads Dashboard
-      </h1>
+<div className="flex items-center justify-between mb-6">
+  <h1 className="text-3xl font-bold">
+    Leads Dashboard
+  </h1>
+
+  <button
+    onClick={() => {
+      localStorage.removeItem("token");
+      window.location.href = "/";
+    }}
+    className="bg-black text-white px-5 py-2 rounded-md"
+  >
+    Logout
+  </button>
+</div>
       <div className="flex flex-wrap gap-4 mb-6">
   <input
     type="text"
