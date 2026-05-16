@@ -129,7 +129,7 @@ npm run dev
 Backend runs on:
 
 ```bash
-http://127.0.0.1:8000
+https://gigflow-backend-oun3.onrender.com
 ```
 
 ---

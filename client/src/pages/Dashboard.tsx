@@ -36,7 +36,7 @@ const [filterSource, setFilterSource] =
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/leads?search=${search}&status=${filterStatus}&source=${filterSource}`,
+        `https://gigflow-backend-oun3.onrender.com/api/leads?search=${search}&status=${filterStatus}&source=${filterSource}`,
         {
           headers: {
             Authorization: token,
@@ -61,7 +61,7 @@ const [filterSource, setFilterSource] =
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "http://127.0.0.1:8000/api/leads",
+        "https://gigflow-backend-oun3.onrender.com/api/leads",
         {
           name,
           email,
@@ -94,7 +94,7 @@ const [filterSource, setFilterSource] =
       const token = localStorage.getItem("token");
   
       await axios.put(
-        `http://127.0.0.1:8000/api/leads/${id}`,
+        `https://gigflow-backend-oun3.onrender.com/api/leads/${id}`,
         {
           status: newStatus,
         },
@@ -126,7 +126,7 @@ const [filterSource, setFilterSource] =
       const token = localStorage.getItem("token");
   
       await axios.delete(
-        `http://127.0.0.1:8000/api/leads/${id}`,
+        `https://gigflow-backend-oun3.onrender.com/api/leads/${id}`,
         {
           headers: {
             Authorization: token,
