@@ -12,6 +12,16 @@ interface Lead {
 const Dashboard = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
 
+  const [name, setName] = useState("");
+
+  const [email, setEmail] = useState("");
+
+  const [status, setStatus] =
+    useState("New");
+
+  const [source, setSource] =
+    useState("Website");
+
   const fetchLeads = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -31,6 +41,40 @@ const Dashboard = () => {
     }
   };
 
+  const createLead = async (
+    e: React.FormEvent
+  ) => {
+    e.preventDefault();
+
+    try {
+      const token = localStorage.getItem("token");
+
+      await axios.post(
+        "http://127.0.0.1:8000/api/leads",
+        {
+          name,
+          email,
+          status,
+          source,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      setName("");
+      setEmail("");
+      setStatus("New");
+      setSource("Website");
+
+      fetchLeads();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchLeads();
   }, []);
@@ -41,17 +85,79 @@ const Dashboard = () => {
         Leads Dashboard
       </h1>
 
+      <form
+        onSubmit={createLead}
+        className="bg-white p-4 rounded-lg shadow-sm mb-6 flex flex-wrap gap-4"
+      >
+        <input
+          type="text"
+          placeholder="Lead name"
+          className="border p-3 rounded-md"
+          value={name}
+          onChange={(e) =>
+            setName(e.target.value)
+          }
+        />
+
+        <input
+          type="email"
+          placeholder="Lead email"
+          className="border p-3 rounded-md"
+          value={email}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
+        />
+
+        <select
+          className="border p-3 rounded-md"
+          value={status}
+          onChange={(e) =>
+            setStatus(e.target.value)
+          }
+        >
+          <option>New</option>
+          <option>Contacted</option>
+          <option>Qualified</option>
+          <option>Lost</option>
+        </select>
+
+        <select
+          className="border p-3 rounded-md"
+          value={source}
+          onChange={(e) =>
+            setSource(e.target.value)
+          }
+        >
+          <option>Website</option>
+          <option>Instagram</option>
+          <option>Referral</option>
+        </select>
+
+        <button className="bg-black text-white px-6 rounded-md">
+          Add Lead
+        </button>
+      </form>
+
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         <table className="w-full">
           <thead className="bg-gray-100">
             <tr>
-              <th className="text-left p-4">Name</th>
+              <th className="text-left p-4">
+                Name
+              </th>
 
-              <th className="text-left p-4">Email</th>
+              <th className="text-left p-4">
+                Email
+              </th>
 
-              <th className="text-left p-4">Status</th>
+              <th className="text-left p-4">
+                Status
+              </th>
 
-              <th className="text-left p-4">Source</th>
+              <th className="text-left p-4">
+                Source
+              </th>
             </tr>
           </thead>
 
