@@ -16,7 +16,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "https://gigflow-backend-oun3.onrender.com/api/auth/login",
+        "https://gigflow-backend-oun3.onrender.com
         {
           email,
           password,
